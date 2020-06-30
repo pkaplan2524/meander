@@ -45,8 +45,8 @@ const mapDispatchToProps = (dispatch) => ({
 //*****************************************************************************
 const useStyles = makeStyles(theme => ({
 	appbar: {
-		paddingLeft: "0.2em",
-		paddingRight: "0.2em",
+		paddingLeft: "1em",
+		paddingRight: "1em",
 		backgroundColor: theme.palette.background.default,
 	},
 	main: {
@@ -59,6 +59,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	grow: {
 		flexGrow: 1,
+		textAlign: "center",
 	},
 	toolbarHeight: {
 		...theme.mixins.toolbar,
@@ -67,13 +68,6 @@ const useStyles = makeStyles(theme => ({
 		...theme.mixins.toolbar
 	},
 	logoButton: {
-		position: "absolute",
-		left: 0,
-		right: 0,
-		top: "4px",
-		height: "3em",
-		margin: "auto",
-		padding: 0,
 		"&:hover": {
 			backgroundColor: "transparent"
 		}
@@ -95,7 +89,6 @@ const useStyles = makeStyles(theme => ({
 		[theme.breakpoints.down('xs')]: {
 			minWidth: "100%",
 		},
-
 	},
 	drawerItem: {
 		...theme.typography.tab,
@@ -107,7 +100,6 @@ const useStyles = makeStyles(theme => ({
 			height: "1.5em",
 			paddingRight: "3px"
 		}
-
 	},
 	drawerItemSelected: {
 		"& .MuiListItemText-root": {
@@ -243,15 +235,6 @@ function Appbar(props) {
 
 				<Toobar disableGutters >
 
-					<Button
-						component={Link}
-						to="/"
-						className={classes.logoButton}
-						onClick={() => setSelectedLink(0)}
-						disableRipple
-					>
-						<img src={logo} alt="logo" />
-					</Button>
 
 					<Button onClick={() => setOpenDrawer(!openDrawer)} className={classes.menuIcons}>
 						<MenuIcon color="primary" />
@@ -271,7 +254,22 @@ function Appbar(props) {
 							</List>
 						</SwipeableDrawer>
 					</React.Fragment>
-					<div className={classes.grow}></div>
+
+
+
+					<div className={classes.grow}>
+						<Button
+							component={Link}
+							to="/"
+							className={classes.logoButton}
+							onClick={() => setSelectedLink(0)}
+							disableRipple
+						>
+							<img src={logo} alt="logo" />
+						</Button>
+					</div>
+
+
 					<Button onClick={handleToggleScreenSharing} className={classes.menuIcons}>
 						{!screen ? <DesktopAccessDisabledIcon color="primary" /> : <DesktopWindowsIcon color="primary" />}
 					</Button>
