@@ -33,11 +33,7 @@ const fs = require('fs');
 const routing = require('./utils/routing');
 const nlSockets = require('./app-config/sockets');
 
-var key = fs.readFileSync(__dirname + '/../certs/selfsigned.key');
-var cert = fs.readFileSync(__dirname + '/../certs/selfsigned.crt');
-var httpsOptions = {
-    key: key,
-    cert: cert
+let httpsOptions = {
 };
 
 //*****************************************************************************
