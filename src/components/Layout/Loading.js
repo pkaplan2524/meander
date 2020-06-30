@@ -3,17 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 //*****************************************************************************
 const useStyles = makeStyles(theme => ({
-	container: {
+	LoadingContainer: {
 		display: "flex",
+		flex: "1 1 100%",
 		flexDirection: "column",
+		fontSize: "inherit",
+		height: "100%",
+		overflow: "hidden",
 		position: "relative",
 		width: "100%",
-		flex: "1 1 100%",
-		overflow: "hidden",
-		height: "100%",
-		fontSize: "inherit"
 	},
-	loadingIconContainer: {
+	LoadingIconContainer: {
 		margin: "auto",
 		display: "flex",
 		alignItems: "center",
@@ -21,19 +21,18 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.primary.main,
 
 	},
-	loadingIcon: {
+	LoadingIcon: {
 		fontSize: "4em"
 	}
 }));
 
 const Loading = (props) => {
 	const classes = useStyles();
-
 	return (
-		<div className={classes.container} >
-			<div className={classes.loadingIconContainer} >
+		<div className={classes.LoadingContainer} >
+			<div className={classes.LoadingIconContainer} >
 				<div>
-					<CircularProgress className={classes.loadingIcon} color="primary" />
+					<CircularProgress className={classes.LoadingIcon} color="primary" />
 				</div>
 				<div>
 					loading...

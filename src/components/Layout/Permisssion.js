@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 //*****************************************************************************
 const useStyles = makeStyles(theme => ({
-	container: {
+	PermissionContainer: {
 		display: "flex",
 		flexDirection: "column",
 		position: "relative",
@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 		height: "100%",
 		fontSize: "inherit"
 	},
-	loadingIconContainer: {
+	PermissionBody: {
 		margin: "auto",
 		display: "flex",
 		alignItems: "center",
@@ -22,16 +22,13 @@ const useStyles = makeStyles(theme => ({
 		textAlign: "center",
 		padding: "2em"
 	},
-	loadingIcon: {
-		fontSize: "4em"
-	}
 }));
 
-const Loading = (props) => {
+const Loading = () => {
 	const classes = useStyles();
 	return (
-		<div className={classes.container} >
-			<div className={classes.loadingIconContainer} >
+		<div className={classes.PermissionContainer} >
+			<div className={classes.PermissionBody} >
 				<div>
 					Permission to use the camera and microphone was not granted. <br />Not much else to do here...maybe play cards or something.
 				</div>

@@ -96,7 +96,6 @@ const WithLocalStream = (Component) => {
 			setPrevMic(selectedMicrophone);
 		}
 
-
 		if (localStream && localStream !== -1) {
 			if (prevScreen !== screen) {
 				if (screen === null) {

@@ -120,7 +120,7 @@ const routes = [
 	{
 		name: "Exit Menu",
 		primaryIndex: 0,
-		icon: <ChevronLeft />,
+		icon: <ChevronLeft color="secondary" />,
 		disabled: false,
 		close: true,
 		onClick: () => { }
@@ -129,7 +129,7 @@ const routes = [
 		name: "Home",
 		to: "/",
 		primaryIndex: 0,
-		icon: <HomeIcon />,
+		icon: <HomeIcon color="secondary" />,
 		disabled: false,
 		onClick: () => { }
 	},
@@ -137,14 +137,14 @@ const routes = [
 		name: "Settings...",
 		dialog: SettingsDialog,
 		primaryIndex: 0,
-		icon: <SettingsIcon />,
+		icon: <SettingsIcon color="secondary" />,
 		disabled: false,
 	},
 	{
 		name: "About Meander...",
 		dialog: AboutDialog,
 		primaryIndex: 0,
-		icon: <InfoIcon />,
+		icon: <InfoIcon color="secondary" />,
 		disabled: false,
 	},
 ];
@@ -169,11 +169,6 @@ function Appbar(props) {
 	});
 
 	const [selectedLink, setSelectedLink] = useState(temp);
-
-	// const handleChange = (event, newValue) => {
-	// 	setSelectedLink(newValue);
-	// };
-
 	const handleItemClicked = (e, route) => {
 		if (!!route.onClick) {
 			route.onClick();
@@ -210,7 +205,6 @@ function Appbar(props) {
 			// Need to kill it here
 			setScreenCaptureStream(null);
 		}
-
 	}
 
 	function OurListItem(route) {
@@ -260,7 +254,7 @@ function Appbar(props) {
 					</Button>
 
 					<Button onClick={() => setOpenDrawer(!openDrawer)} className={classes.menuIcons}>
-						<MenuIcon />
+						<MenuIcon color="primary" />
 					</Button>
 					<React.Fragment>
 						<SwipeableDrawer
@@ -279,14 +273,14 @@ function Appbar(props) {
 					</React.Fragment>
 					<div className={classes.grow}></div>
 					<Button onClick={handleToggleScreenSharing} className={classes.menuIcons}>
-						{screen ? <DesktopAccessDisabledIcon /> : <DesktopWindowsIcon />}
+						{!screen ? <DesktopAccessDisabledIcon color="primary" /> : <DesktopWindowsIcon color="primary" />}
 					</Button>
 
 					<Button onClick={handleToggleMic} className={classes.menuIcons}>
-						{audioPaused ? <MicOff /> : <Mic />}
+						{audioPaused ? <MicOff color="primary" /> : <Mic color="primary" />}
 					</Button>
 					<Button onClick={handleToggleCamera} className={classes.menuIcons}>
-						{videoPaused ? <VideocamOff /> : <Videocam />}
+						{videoPaused ? <VideocamOff color="primary" /> : <Videocam color="primary" />}
 					</Button>
 				</Toobar>
 			</AppBar>

@@ -4,9 +4,9 @@ import { makeStyles } from '@material-ui/styles';
 
 import Loading from "../Layout/Loading";
 import withParticipants from "../Layout/withParticipants";
-import ScreenSolo from '../Layout/ScreenViews/ScreenSolo';
+import Screen1 from '../Layout/ScreenViews/Screen1';
 import Screen2PiP from '../Layout/ScreenViews/Screen2PiP';
-import Screen3Staggered from '../Layout/ScreenViews/Screen3Staggered';
+import Screen3PiP from '../Layout/ScreenViews/Screen3PiP';
 import Screen4Quadrants from '../Layout/ScreenViews/Screen4Quadrants';
 //*****************************************************************************
 const mapStateToProps = (state) => ({
@@ -52,13 +52,13 @@ const MeetingRoomPage = (props) => {
 	let Component = '';
 	switch (participants.length) {
 		case 0: // Just you, no remote
-			Component = ScreenSolo;
+			Component = Screen1;
 			break;
 		case 1: // One remote
 			Component = Screen2PiP;
 			break;
 		case 2: // Two remote
-			Component = Screen3Staggered;
+			Component = Screen3PiP;
 			break;
 		case 3: // Three remote
 			Component = Screen4Quadrants;

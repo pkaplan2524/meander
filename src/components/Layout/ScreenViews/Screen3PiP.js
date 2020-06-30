@@ -21,9 +21,7 @@ const useStyles = makeStyles(theme => ({
 		float: "left",
 		height: "50%"
 	},
-
 }));
-
 
 const Screen3PiP = (props) => {
 	const { participants, dimensions } = props;
