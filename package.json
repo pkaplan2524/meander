@@ -1,0 +1,62 @@
+{
+  "name": "reactwebrtc",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.10.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.55",
+    "@material-ui/styles": "^4.10.0",
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.17",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "socket.io": "^2.3.0",
+    "stun": "^2.1.0",
+    "uuid": "^8.1.0",
+    "validator": "^13.0.0",
+    "webrtc-adapter": "^7.6.2"
+  },
+  "devDependencies": {
+    "env-cmd": "^9.0.3",
+    "nodemon": "^1.19.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^3.5.3"
+  },
+  "scripts": {
+    "start": "node ./server/index.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "client-dev": "BROWSER='google chrome' react-scripts start",
+    "server-dev": "env-cmd -f ./.env.development.local nodemon ./server/index.js",
+    "server-dev-node": "env-cmd -f ./.env.development.local node ./server/index.js",
+    "server-prod": "env-cmd -f ./.env.production.local node ./server/index.js",
+    "start-dev": "run-p build server-dev-node",
+    "start-prod": "run-s build server-prod"
+  },
+  "proxy": "http://localhost:3001",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
