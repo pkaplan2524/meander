@@ -4,12 +4,12 @@ import BaseVideo from "./BaseVideo";
 //*****************************************************************************
 const RemoteView = (props) => {
 	const { peer, match, muted } = props;
-	// const connectionState = peer.peerConnection.peerConnection.connectionState;
-	// const iceConnectionState = peer.peerConnection.peerConnection.iceConnectionState;
-	// const signalingState = peer.peerConnection.peerConnection.signalingState;
+	// const connectionState = peer.meanderPeer.peerConnection.connectionState;
+	// const iceConnectionState = peer.meanderPeer.peerConnection.iceConnectionState;
+	// const signalingState = peer.meanderPeer.peerConnection.signalingState;
 	// console.log(connectionState, signalingState, iceConnectionState)
 	return (
-		<BaseVideo stream={peer.peerConnection.remoteStream} topBanner={peer.name} muted={muted} match={match} />
+		<BaseVideo stream={peer.meanderPeer.remoteStream} topBanner={peer.name} muted={muted} match={match} />
 	)
 }
 export default RemoteView;

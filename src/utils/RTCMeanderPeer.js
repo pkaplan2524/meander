@@ -1,3 +1,36 @@
+/******************************************************************************
+ * 
+ * 	RTCMeanderPeer.js
+ * 
+ * 	This is intentionally written as a pure javascript class and not mixed
+ * 	with any React. The objective is to have a class that can be used from 
+ * 	any UI platform with little to no modification. It does, however, rely 
+ * 	on socket.io. I do plan on removing that in the future.
+ * 
+ * 	If you cloned this project in an attempt to learn WebRTC this is the 
+ * 	file you want to look at. That having been said, I make no warranty 
+ * 	claims about quality or usefullness of the code. In fact, I know of 
+ * 	quite a few improvements that could be made. Not the least of which is
+ * 	documentation and error testing.
+ * 
+ * 	initalize
+ * 	terminate
+ * 	restart
+ * 	jumpStart
+ * 	setOnRemoteStream
+ * 	setStream
+ * 	extendOffer
+ * 	receiveOffer
+ * 	recieveAnswer
+ * 	addTracks
+ * 	recieveCandidateRequest
+ * 	onIceCandidate
+ * 	onTrack
+ * 	onIceConnectionStateChange
+ * 	onConnectionStateChange
+ * 	onSignalingStateChange
+ * 
+ *****************************************************************************/
 const { RTCPeerConnection, RTCSessionDescription } = window;
 
 const defaultConnectionConfig = {
@@ -21,6 +54,11 @@ class MeanderPeer {
 	remoteStream = null;
 	extendOfferFlag = false;
 
+	/**
+	* Constructor for the MeanderPeer class
+	* @param  {object} object { user, socket, localStream, onRemoteStream }
+	* @return {class} MeanderClass
+	*/
 	constructor({
 		user = null,
 		socket = null,
@@ -158,7 +196,7 @@ class MeanderPeer {
 				// There is an isse where the peerConnection will try to get a jump start 
 				// on the ICE candidates and it will emit candidates before the connection
 				// is comeplete. Well, a peer can't do anything with the candidate until
-				// the peer signalingState is in a 'stable' state. Therefore, we queue up the
+				// the peer signalingState is 'stable'. Therefore, we queue up the
 				// candidates if our connection is not ready for them.
 				if ((this.peerConnection.signalingState === 'stable')
 					&& this.iceCandidateArray.length === 0) {

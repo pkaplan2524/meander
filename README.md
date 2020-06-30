@@ -2,7 +2,7 @@
 As in the opposite of Zoom.
 
 
-I wanted to learn WebRTC and I'm not a big fan of Zoom. So I set out to create a simple video conferencing web app that could accomodate my, admittedly minor, needs. This project is the end result.
+I wanted to learn WebRTC and I'm not a big fan of Zoom. So I set out to create a simple video conferencing web app that could accomodate my, admittedly minor, needs. This project is the end result. It was built as a learning experience.
 
 This app does not do anything too fancy. It creates streams between each of the participants (inbound and outbound in a full mesh). The server does not play middleman (one of my complaints about the afore mentioned Zoom). The only thing that the server does is keep track of active meeting codes and exchange ICE(Internet Connectivity Establishment) signaling.
 
