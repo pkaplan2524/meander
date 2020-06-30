@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import PeerConnection from "../../utils/RTCPeerConnection";
+import RTCMeanderPeer from "../../utils/RTCMeanderPeer";
 import { setUserList, setRoom } from "../../redux/socketReducer";
 import withLocalStream from "./withLocalStream";
 //*****************************************************************************
@@ -61,14 +61,14 @@ const WithParticipants = (Component) => {
 		}
 
 		const userEnteredRoom = async (user) => {
-			const peerConnection = new PeerConnection({
+			const meanderPeer = new RTCMeanderPeer({
 				socket,
 				user,
 				localStream,
 				onRemoteStream: onRemoteStream
 			});
-			await peerConnection.jumpStart(false)
-			setParticipants(participants => [...participants, { id: user.id, remote: false, name: user.name, peerConnection }]);
+			await meanderPeer.jumpStart(false)
+			setParticipants(participants => [...participants, { id: user.id, remote: false, name: user.name, meanderPeer }]);
 			socket.emit('start-p2p', user.id);
 		}
 
@@ -76,21 +76,21 @@ const WithParticipants = (Component) => {
 			setParticipants((participants) => {
 				const participant = participants.find((item) => item.id === id)
 				if (participant)
-					participant.peerConnection.terminate();
+					participant.meanderPeer.terminate();
 				return participants.filter((item) => item.id !== id)
 			});
 		}
 
 		const startP2P = async (user) => {
-			const peerConnection = new PeerConnection({
+			const meanderPeer = new RTCMeanderPeer({
 				socket,
 				user,
 				localStream,
 				onRemoteStream: onRemoteStream
 
 			});
-			await peerConnection.jumpStart(true)
-			setParticipants(participants => [...participants, { id: user.id, remote: true, name: user.name, peerConnection }]);
+			await meanderPeer.jumpStart(true)
+			setParticipants(participants => [...participants, { id: user.id, remote: true, name: user.name, meanderPeer }]);
 		}
 
 		const onRemoteStream = (newStream) => {
@@ -103,7 +103,7 @@ const WithParticipants = (Component) => {
 
 		if (localStreamChanged !== prevStreamChanged) {
 			participants.forEach((participant) => {
-				participant.peerConnection.setStream(localStream)
+				participant.meanderPeer.setStream(localStream)
 			})
 			setPrevStreamChanged(localStreamChanged);
 		}

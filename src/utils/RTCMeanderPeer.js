@@ -9,7 +9,7 @@ const offerOptions = {
 	offerToReceiveVideo: 1
 };
 
-class PeerConnection {
+class MeanderPeer {
 	ourConnectionState = 'new';
 	onRemoteStream = () => { }
 	peerConnection = null;
@@ -237,4 +237,4 @@ class PeerConnection {
 		}
 	}
 }
-export default PeerConnection;
+export default MeanderPeer;
