@@ -33,7 +33,7 @@ const Screen3PiP = (props) => {
 
 	const peerVideo = (peer) => (
 		<div className={videoClass} key={peer.id}>
-			<RemoteVideo peer={peer} topBanner={peer.name} muted={false} change={props.remoteStreamsChanged} match="height" />
+			<RemoteVideo peer={peer} videoBanner={peer.name} muted={false} change={props.remoteStreamsChanged} match="height" />
 		</div>
 	)
 

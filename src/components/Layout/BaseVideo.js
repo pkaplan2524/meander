@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import Loading from "./Loading";
 //*****************************************************************************
 const useStyles = makeStyles(theme => ({
-	BaseVideoMatchWidth: {
+	BaseVideoContainer: {
 		display: "flex",
 		flexDirection: "column",
 		position: "relative",
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 	MatchHeight: {
 		height: "100%",
 	},
-	BaseVideoTitle: {
+	BaseVideoBanner: {
 		position: "absolute",
 		width: "100%",
 		padding: ".5em",
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 		flex: "0 0 2.5em",
 		bottom: "0px",
 	},
-	BaseVideoContainer: {
+	BaseVideoInnerContainer: {
 		flex: "1 1",
 		overflow: "hidden",
 	},
@@ -73,8 +73,8 @@ const BaseVideo = (props) => {
 	}, [videoRef, stream, change])
 
 	const showTitlebar = () => {
-		if (props.topBanner) {
-			return <div className={classes.BaseVideoTitle}>{props.topBanner}</div>
+		if (props.videoBanner) {
+			return <div className={classes.BaseVideoBanner}>{props.videoBanner}</div>
 		}
 	}
 
@@ -98,16 +98,15 @@ const BaseVideo = (props) => {
 		}
 	}
 
-	let containerClass = classes.BaseVideoMatchWidth;
+	let containerClass = classes.BaseVideoContainer;
 	if (match === "height")
 		containerClass += " " + classes.MatchHeight;
 
 	return (
 		<div className={containerClass} ref={containerRef} >
-			{showTitlebar()}
 			{
 				stream === null ? <Loading /> : (
-					<div className={classes.BaseVideoContainer}>
+					<div className={classes.BaseVideoInnerContainer}>
 						<video
 							autoPlay
 							playsInline
@@ -116,7 +115,9 @@ const BaseVideo = (props) => {
 							className={classes.BaseVideoVideo}
 							muted={props.muted}
 						/>
+						{showTitlebar()}
 					</div>
+
 				)
 			}
 		</div>

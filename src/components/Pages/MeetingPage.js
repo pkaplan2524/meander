@@ -78,10 +78,9 @@ const MeetingRoomPage = (props) => {
 						participants={participants}
 						change={change}
 						dimensions={mainDimensions}
-						topBanner={"Stopit"}
 					/>) : (
 						<div className={classes.MeetingRoomDefaultContainer}>
-							Womp Womp
+							Womp Womp. We don't handle groups of 5 or more.
 						</div>
 					)
 			)

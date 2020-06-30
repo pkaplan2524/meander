@@ -3,13 +3,11 @@ import { makeStyles } from '@material-ui/styles';
 import BaseVideo from '../BaseVideo';
 
 const PiPZIndex = 20;
-
 const useStyles = makeStyles(theme => ({
 	PiPContainerVideo: {
 		position: "relative",
 		height: "100%",
 		padding: "8px"
-
 	},
 	PiPContainerOverlay: {
 		top: "8px",
@@ -20,10 +18,15 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		flexDirection: "column"
 	},
-	// bannerAdjust: {
-	// 	height: "2.5em",
-	// 	position: "relative"
-	// },
+	PiPInnnerConatiner: {
+		display: "flex",
+		flex: "1 1",
+		position: "relative",
+	},
+	bannerAdjust: {
+		height: "2.5em",
+		position: "relative"
+	},
 	topRightMini: {
 		position: "absolute",
 		cursor: "pointer",
@@ -93,7 +96,7 @@ const useStyles = makeStyles(theme => ({
 
 const WithPiP = (Component) => {
 	function WrappedComponent(props) {
-		const { localStream, change, dimensions } = props;
+		const { localStream, change, dimensions, videoBanner } = props;
 		const classes = useStyles();
 		const [positionClass, setPositionClass] = useState(classes.topLeftMini)
 		const miniRef = useRef();
@@ -121,10 +124,7 @@ const WithPiP = (Component) => {
 			<div className={classes.PiPContainerVideo}>
 				<Component {...extendedProps} />
 				<div className={classes.PiPContainerOverlay}>
-					{/* (topBanner) && <div className={classes.bannerAdjust}></div>*/}
-
-					<div className={classes.containerOuter}>
-
+					<div className={classes.PiPInnnerConatiner}>
 						<div className={classes.topLeftMini} ref={miniRef}
 							onClick={() => setPosition(classes.topLeftMini)} style={heightStyle}>
 						</div>
@@ -150,10 +150,11 @@ const WithPiP = (Component) => {
 							onClick={() => setPosition(classes.middleRightMini)} style={heightStyle}>
 						</div>
 						<div className={positionClass} >
-
 							<BaseVideo stream={localStream} muted={true} change={change} match="height" />
 						</div>
 					</div>
+					{(videoBanner) && <div className={classes.bannerAdjust}></div>}
+
 				</div>
 			</div>
 		)
