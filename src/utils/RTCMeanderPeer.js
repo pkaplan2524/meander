@@ -47,12 +47,19 @@ class MeanderPeer {
 	onRemoteStream = () => { }
 	peerConnection = null;
 	iceCandidateArray = [];
+	periodicTask = null;
+	extendOfferFlag = false;
+	stats = {
+		outboundRtpAudio: null,
+		outboundRtpVideo: null,
+		outboundRtpStream: null,
+	}
 
 	user = null;
 	socket = null;
 	localStream = null
 	remoteStream = null;
-	extendOfferFlag = false;
+	connectionConfig = defaultConnectionConfig;
 
 	/**
 	* Constructor for the MeanderPeer class
@@ -81,6 +88,9 @@ class MeanderPeer {
 		}
 	}
 
+	/**
+	* Initalization function for the MeanderPeer class
+	*/
 	initialize = async () => {
 		//console.log("initialize", this.ourConnectionState);
 		this.socket.on('receive-offer', this.receiveOffer);
@@ -94,6 +104,8 @@ class MeanderPeer {
 		this.peerConnection.addEventListener('track', this.onTrack);
 		this.peerConnection.createDataChannel("test");
 
+		const PERIODIC_TASK_TIME = 1000; // five seconds
+		this.periodicTask = setInterval(this.gatherStatistics, PERIODIC_TASK_TIME);
 		this.ourConnectionState = "initalized";
 	}
 
@@ -112,6 +124,83 @@ class MeanderPeer {
 		this.peerConnection.removeEventListener('connectionstatechange', this.onConnectionStateChange)
 
 		this.peerConnection.close();
+	}
+
+	gatherStatistics = () => {
+		if (!this.peerConnection) return;
+		// "outbound-rtp"
+		// "inbound-rtp"
+		// "remote-inbound-rtp"
+		// "remote-outbound-rtp"
+
+
+		// "candidate-pair"
+		// "certificate"
+		// "codec"
+		// "csrc"
+		// "data-channel"
+		// "local-candidate"
+		// "peer-connection"
+		// "receiver"
+		// "remote-candidate"
+		// "sender"
+		// "stream"
+		// "track"
+		// "transport"
+
+		const senders = this.peerConnection.getSenders();
+		if (!senders) return;
+		senders.forEach((sender) => {
+			if (!sender) return;
+			sender.getStats().then((stats) => {
+				stats.forEach((report) => {
+
+					switch (report.type) {
+						case "outbound-rtp":
+							const gatherOutboundRtpStats = (prev, report) => {
+								if (!prev) return { ...report, bitrate: 0, headerrate: 0 };
+
+								const now = report.timestamp;
+								return {
+									...report,
+									bitrate: 8 * (report.bytesSent - prev.bytesSent) / (now - prev.timestamp),
+									headerrate: 8 * (report.headerBytesSent - prev.headerBytesSent) / (now - prev.timestamp),
+								}
+							}
+
+							switch (report.kind) {
+								case 'audio':
+									this.stats.outboundRtpAudio = gatherOutboundRtpStats(this.stats.ooutboundRtpAudio, report);
+									break;
+								case 'video':
+									this.stats.outboundRtpVideo = gatherOutboundRtpStats(this.stats.outboundRtpVideo, report);
+									break;
+								default:
+									this.stats.outoutboundRtpScreen = gatherOutboundRtpStats(this.stats.outboundRtpScreen, report);
+									break;
+							}
+							break;
+
+						default:
+							break;
+					}
+
+					//console.log(report)
+				})
+			})
+		})
+
+		const receivers = this.peerConnection.getReceivers();
+		if (!receivers) return;
+		receivers.forEach((receiver) => {
+			if (!receiver) return;
+			receiver.getStats().then((stats) => {
+				stats.forEach((report) => {
+					// console.log(report)
+				})
+			})
+		})
+
 	}
 
 	restart = () => {
