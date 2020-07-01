@@ -113,6 +113,7 @@ const WithLocalStream = (Component) => {
 					setPrevVideo(videoTracks);
 				}
 				setPrevScreen(screen);
+				setLocalStreamChange((s) => s + 1);
 			}
 
 			const audio = localStream.getAudioTracks()
