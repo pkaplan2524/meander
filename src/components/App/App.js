@@ -17,13 +17,13 @@ function App() {
   const [checkingAuth, setCheckingAuth] = useState(useAuth);
   const [startingUp, setStartingUp] = useState(true);
 
-  if (useAuth) {
-    checkAuth(reduxStore.dispatch).then(() => {
-      setCheckingAuth(false);
-    });
-  }
-
   if (startingUp) {
+    if (useAuth) {
+      checkAuth(reduxStore.dispatch).then(() => {
+        setCheckingAuth(false);
+      });
+    }
+
     startSocketIO(reduxStore);
     startWebRTC(reduxStore.dispatch);
     setStartingUp(false);
