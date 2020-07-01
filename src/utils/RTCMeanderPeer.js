@@ -17,6 +17,7 @@
  * 	terminate
  * 	restart
  * 	jumpStart
+ * 	gatherStatistics
  * 	setOnRemoteStream
  * 	setStream
  * 	extendOffer
@@ -61,11 +62,6 @@ class MeanderPeer {
 	remoteStream = null;
 	connectionConfig = defaultConnectionConfig;
 
-	/**
-	* Constructor for the MeanderPeer class
-	* @param  {object} object { user, socket, localStream, onRemoteStream }
-	* @return {class} MeanderClass
-	*/
 	constructor({
 		user = null,
 		socket = null,
@@ -80,19 +76,7 @@ class MeanderPeer {
 		this.peerConnection = new RTCPeerConnection(connectionConfig)
 	}
 
-	jumpStart = async (makeOffer) => {
-		await this.initialize();
-		this.addTracks();
-		if (makeOffer) {
-			await this.extendOffer();
-		}
-	}
-
-	/**
-	* Initalization function for the MeanderPeer class
-	*/
 	initialize = async () => {
-		//console.log("initialize", this.peerConnection.signalingState);
 		this.socket.on('receive-offer', this.receiveOffer);
 		this.socket.on('receive-answer', this.recieveAnswer);
 		this.socket.on('ice-candidate-request', this.recieveCandidateRequest);
@@ -110,7 +94,6 @@ class MeanderPeer {
 	}
 
 	terminate = () => {
-		//console.log("terminate")
 		this.ourConnectionState = "closed";
 
 		this.socket.off('create-peer');
@@ -125,6 +108,19 @@ class MeanderPeer {
 
 		clearInterval(this.periodicTask);
 		this.peerConnection.close();
+	}
+
+	restart = () => {
+		this.terminate();
+		this.jumpStart(this.extendOfferFlag)
+	}
+
+	jumpStart = async (makeOffer) => {
+		await this.initialize();
+		this.addTracks();
+		if (makeOffer) {
+			await this.extendOffer();
+		}
 	}
 
 	gatherStatistics = () => {
@@ -155,7 +151,6 @@ class MeanderPeer {
 			if (!sender) return;
 			sender.getStats().then((stats) => {
 				stats.forEach((report) => {
-
 					switch (report.type) {
 						case "outbound-rtp":
 							const gatherOutboundRtpStats = (prev, report) => {
@@ -183,36 +178,25 @@ class MeanderPeer {
 									break;
 							}
 							break;
-
 						default:
 							break;
 					}
-
-					//console.log(report)
 				})
 			})
 		})
 
-		const receivers = this.peerConnection.getReceivers();
-		if (!receivers) return;
-		receivers.forEach((receiver) => {
-			if (!receiver) return;
-			receiver.getStats().then((stats) => {
-				stats.forEach((report) => {
-					// console.log(report)
-				})
-			})
-		})
-
-	}
-
-	restart = () => {
-		this.terminate();
-		this.jumpStart(this.extendOfferFlag)
+		// const receivers = this.peerConnection.getReceivers();
+		// if (!receivers) return;
+		// receivers.forEach((receiver) => {
+		// 	if (!receiver) return;
+		// 	receiver.getStats().then((stats) => {
+		// 		stats.forEach((report) => {
+		// 		})
+		// 	})
+		// })
 	}
 
 	extendOffer = async (restart) => {
-		console.log("extendOffer")
 		this.ourConnectionState = "offerExtended";
 		this.extendOfferFlag = true;
 
@@ -233,7 +217,6 @@ class MeanderPeer {
 	}
 
 	addTracks = () => {
-		console.log("addTracks", this.peerConnection)
 		if (this.localStream) {
 			this.localStream.getTracks().forEach(track => {
 				this.peerConnection.addTrack(track, this.localStream);
@@ -243,7 +226,6 @@ class MeanderPeer {
 	}
 
 	receiveOffer = async (payload) => {
-		console.log("receiveOffer")
 		if (this.user.id === payload.from && payload.to === this.socket.id) {
 			this.ourConnectionState = "answerExtended";
 			try {
@@ -251,7 +233,6 @@ class MeanderPeer {
 				var answer = await this.peerConnection.createAnswer();
 				await this.peerConnection.setLocalDescription(new RTCSessionDescription(answer));
 			} catch (error) {
-				// console.log("Error in receiveOffer:", error)
 			}
 			const replyPayload = {
 				to: payload.from,
@@ -263,7 +244,6 @@ class MeanderPeer {
 	}
 
 	recieveAnswer = async (payload) => {
-		console.log("recieveAnswer")
 		if (this.user.id === payload.from && payload.to === this.socket.id) {
 			this.ourConnectionState = "peersConnected";
 			try {
@@ -271,13 +251,11 @@ class MeanderPeer {
 					new RTCSessionDescription(JSON.parse(payload.answer))
 				)
 			} catch (e) {
-				// console.log('Error acceptPeer:', payload, e)
 			};
 		}
 	}
 
 	recieveCandidateRequest = async (payload) => {
-		// console.log("recieveCandidateRequest", this)
 		if (this.user.id === payload.from && payload.to === this.socket.id) {
 			const candidate = JSON.parse(payload.candidate);
 			if ((candidate === null) || (candidate.candidate === '')) {
@@ -303,7 +281,6 @@ class MeanderPeer {
 	}
 
 	onIceCandidate = async (event) => {
-		// console.log("onIceCandidate", this.socket.id, this.user.id)
 		const payload = {
 			from: this.socket.id,
 			to: this.user.id,
@@ -313,7 +290,6 @@ class MeanderPeer {
 	}
 
 	onTrack = async (event) => {
-		console.log("onTrack")
 		this.remoteStream = event.streams[0];
 		this.onRemoteStream(event.streams[0]);
 	}
@@ -324,7 +300,6 @@ class MeanderPeer {
 			this.onRemoteStream(this.remoteStream)
 		}
 		if (this.peerConnection.iceConnectionState === 'failed') {
-			console.log("failed restart", this)
 			this.extendOffer(true);
 		}
 	}

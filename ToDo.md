@@ -1,7 +1,5 @@
 Add reconnect button on video
 Update name on the fly
 Image instead of video?
-Work on reconnection issues
-Client side mute
+Add to stats box
 More error checking and defensive coding
-Change videoBanner to showBanner flag

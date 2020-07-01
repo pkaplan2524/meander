@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
+import MicOff from '@material-ui/icons/MicOff';
+import Mic from '@material-ui/icons/Mic';
+
 import Popover from '@material-ui/core/Popover';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,15 +21,18 @@ const useStyles = makeStyles(theme => ({
 		flex: "0 0 2.5em",
 	},
 	BannerLeft: {
+		paddingLeft: "8px",
 		textAlign: "left",
-
+		zIndex: 2,
 	},
 	BannerCenter: {
+		zIndex: 2,
 		textAlign: "center",
 		flex: "1 1"
 	},
 	BannerRight: {
 		zIndex: 2,
+		paddingRight: "8px",
 		textAlign: "right",
 	},
 	BandwidthIconBad: {
@@ -55,8 +61,8 @@ const VideoBanner = (props) => {
 	const [initalizedStats, setInitalizedStats] = useState(false);
 	//	const [stats, setStats] = useState(null);
 	const [bitrate, setBitrate] = useState(0);
-	const [popoverId] = useState(uuidv4())
-
+	const [popoverId] = useState(uuidv4());
+	const [audioMuted, setAudioMuted] = useState(null);
 
 	useEffect(() => {
 		return function cleanup() {
@@ -64,6 +70,17 @@ const VideoBanner = (props) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	useEffect(() => {
+		if (peer && peer.meanderPeer && peer.meanderPeer.remoteStream) {
+			const audio = peer.meanderPeer.remoteStream.getAudioTracks()
+			if (audio) audio.forEach((track) => {
+				if (track.enabled === audioMuted) {
+					track.enabled = !audioMuted;
+				}
+			})
+		}
+	}, [audioMuted, peer])
 
 	if (peer && !initalizedStats) {
 		const interval = setInterval(() => {
@@ -82,16 +99,43 @@ const VideoBanner = (props) => {
 		setAnchorEl(null);
 	};
 
+	const toggleMute = () => {
+		console.log("toggle")
+		setAudioMuted(!audioMuted);
+	}
+
 	let iconColor = classes.BandwidthIconBad;
 	if (bitrate > 1000)
 		iconColor = classes.BandwidthIconGood;
 	else if (bitrate > 600)
 		iconColor = classes.BandwidthIconOK;
 
+	if (peer && peer.meanderPeer && peer.meanderPeer.remoteStream && (audioMuted === null)) {
+		console.log(peer.meanderPeer.remoteStream)
+		const audio = peer.meanderPeer.remoteStream.getAudioTracks()
+		if (audio) audio.forEach((track) => {
+			setAudioMuted(!track.enabled);
+			console.log(audio)
+			// if (track.enabled === audioPaused) {
+			// 	track.enabled = !audioPaused;
+			// }
+		})
+
+	}
+
 	const open = Boolean(anchorEl);
 	return (
 		<div className={classes.BannerContainer}>
-			<div className={classes.BannerLeft}>Left</div>
+			<div className={classes.BannerLeft}>
+				{
+					peer && (
+						audioMuted ? <MicOff fontSize="small" onClick={toggleMute} /> :
+							<Mic fontSize="small" onClick={toggleMute} />
+
+					)
+				}
+
+			</div>
 			<div className={classes.BannerCenter}>{name}</div>
 			<div className={classes.BannerRight}>
 				<div
