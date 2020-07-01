@@ -14,7 +14,7 @@ const ScreenSolo = (props) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.container}>
-			<BaseVideo stream={localStream} videoBanner={name + " (Me)"} muted={true} match="height" />
+			<BaseVideo stream={localStream} showBanner={true} name={name + " (Me)"} muted={true} match="height" />
 		</div>
 	)
 }

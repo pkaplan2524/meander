@@ -75,6 +75,7 @@ const MeetingRoomPage = (props) => {
 					<Component
 						localStream={localStream}
 						name={name}
+						showBanner={name}
 						participants={participants}
 						change={change}
 						dimensions={mainDimensions}

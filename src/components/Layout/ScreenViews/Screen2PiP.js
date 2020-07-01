@@ -16,7 +16,7 @@ const Screen2PiP = (props) => {
 
 	return (
 		<div className={classes.container}>
-			<RemoteVideo peer={participants[0]} videoBanner={participants[0].name} muted={false} match="height" />
+			<RemoteVideo peer={participants[0]} name={participants[0].name} showBanner={true} muted={false} match="height" />
 		</div>
 	)
 }

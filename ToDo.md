@@ -4,3 +4,4 @@ Image instead of video?
 Work on reconnection issues
 Client side mute
 More error checking and defensive coding
+Change videoBanner to showBanner flag

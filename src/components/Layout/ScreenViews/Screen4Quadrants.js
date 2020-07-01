@@ -26,19 +26,19 @@ const Screen4Quadrants = (props) => {
 		<div className={classes.container}>
 			<div className={classes.row}>
 				<div className={classes.quadrant}>
-					<RemoteVideo peer={participants[0]} videoBanner={participants[0].name} muted={false} change={props.remoteStreamsChanged} match="height" />
+					<RemoteVideo peer={participants[0]} showBanner={true} name={participants[0].name} muted={false} change={props.remoteStreamsChanged} match="height" />
 				</div>
 				<div className={classes.quadrant}>
-					<RemoteVideo peer={participants[1]} videoBanner={participants[1].name} muted={false} change={props.remoteStreamsChanged} match="height" />
+					<RemoteVideo peer={participants[1]} showBanner={true} name={participants[1].name} muted={false} change={props.remoteStreamsChanged} match="height" />
 
 				</div>
 			</div>
 			<div className={classes.row}>
 				<div className={classes.quadrant}>
-					<RemoteVideo peer={participants[2]} videoBanner={participants[2].name} muted={false} change={props.remoteStreamsChanged} match="height" />
+					<RemoteVideo peer={participants[2]} showBanner={true} name={participants[2].name} muted={false} change={props.remoteStreamsChanged} match="height" />
 				</div>
 				<div className={classes.quadrant}>
-					<BaseVideo stream={localStream} muted={true} videoBanner={name + " (Me)"} match="height" />
+					<BaseVideo stream={localStream} muted={true} showBanner={true} name={name + " (Me)"} match="height" />
 				</div>
 			</div>
 		</div>

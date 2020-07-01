@@ -96,7 +96,7 @@ const useStyles = makeStyles(theme => ({
 
 const WithPiP = (Component) => {
 	function WrappedComponent(props) {
-		const { localStream, change, dimensions, videoBanner } = props;
+		const { localStream, change, dimensions, showBanner } = props;
 		const classes = useStyles();
 		const [positionClass, setPositionClass] = useState(classes.topLeftMini)
 		const miniRef = useRef();
@@ -153,8 +153,7 @@ const WithPiP = (Component) => {
 							<BaseVideo stream={localStream} muted={true} change={change} match="height" />
 						</div>
 					</div>
-					{(videoBanner) && <div className={classes.bannerAdjust}></div>}
-
+					{(showBanner) && <div className={classes.bannerAdjust}></div>}
 				</div>
 			</div>
 		)

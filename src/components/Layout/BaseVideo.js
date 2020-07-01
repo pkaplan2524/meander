@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Loading from "./Loading";
+import VideoBanner from "./VideoBanner";
 //*****************************************************************************
 const useStyles = makeStyles(theme => ({
 	BaseVideoContainer: {
@@ -22,17 +23,8 @@ const useStyles = makeStyles(theme => ({
 	BaseVideoBanner: {
 		position: "absolute",
 		width: "100%",
-		padding: ".5em",
-		textAlign: "center",
-		justifyContent: "center",
-		backgroundColor: "rgba(1, 1, 1, .25)",
-		color: theme.palette.grey[200],
-		overflow: "hidden",
-		borderBottom: "1px solid " + theme.palette.grey[400],
 		height: "2.5em",
 		minHeight: "2.5em",
-		display: "flex",
-		flex: "0 0 2.5em",
 		bottom: "0px",
 	},
 	BaseVideoInnerContainer: {
@@ -73,8 +65,8 @@ const BaseVideo = (props) => {
 	}, [videoRef, stream, change])
 
 	const showTitlebar = () => {
-		if (props.videoBanner) {
-			return <div className={classes.BaseVideoBanner}>{props.videoBanner}</div>
+		if (props.showBanner) {
+			return <div className={classes.BaseVideoBanner}><VideoBanner name={props.name} peer={props.peer} /></div>
 		}
 	}
 

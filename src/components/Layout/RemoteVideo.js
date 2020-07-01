@@ -9,7 +9,7 @@ const RemoteView = (props) => {
 	// const signalingState = peer.meanderPeer.peerConnection.signalingState;
 	// console.log(connectionState, signalingState, iceConnectionState)
 	return (
-		<BaseVideo stream={peer.meanderPeer.remoteStream} videoBanner={peer.name} muted={muted} match={match} />
+		<BaseVideo stream={peer.meanderPeer.remoteStream} showBanner={true} name={peer.name} peer={peer} muted={muted} match={match} />
 	)
 }
 export default RemoteView;
