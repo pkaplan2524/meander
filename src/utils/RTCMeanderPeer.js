@@ -169,6 +169,8 @@ class MeanderPeer {
 								}
 							}
 
+							// For some reason safari stores in mediaType not kind
+							if (!report.kind) report.kind = report.mediaType;
 							switch (report.kind) {
 								case 'audio':
 									this.stats.outboundRtpAudio = gatherOutboundRtpStats(this.stats.ooutboundRtpAudio, report);
