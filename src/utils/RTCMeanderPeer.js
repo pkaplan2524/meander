@@ -92,7 +92,7 @@ class MeanderPeer {
 	* Initalization function for the MeanderPeer class
 	*/
 	initialize = async () => {
-		//console.log("initialize", this.ourConnectionState);
+		//console.log("initialize", this.peerConnection.signalingState);
 		this.socket.on('receive-offer', this.receiveOffer);
 		this.socket.on('receive-answer', this.recieveAnswer);
 		this.socket.on('ice-candidate-request', this.recieveCandidateRequest);
@@ -123,6 +123,7 @@ class MeanderPeer {
 		this.peerConnection.removeEventListener('iceconnectionstatechange', this.onIceConnectionStateChange)
 		this.peerConnection.removeEventListener('connectionstatechange', this.onConnectionStateChange)
 
+		clearInterval(this.periodicTask);
 		this.peerConnection.close();
 	}
 
@@ -248,7 +249,7 @@ class MeanderPeer {
 				var answer = await this.peerConnection.createAnswer();
 				await this.peerConnection.setLocalDescription(new RTCSessionDescription(answer));
 			} catch (error) {
-				console.log("Error in receiveOffer:", error)
+				// console.log("Error in receiveOffer:", error)
 			}
 			const replyPayload = {
 				to: payload.from,
@@ -268,7 +269,7 @@ class MeanderPeer {
 					new RTCSessionDescription(JSON.parse(payload.answer))
 				)
 			} catch (e) {
-				console.log('Error acceptPeer:', payload, e)
+				// console.log('Error acceptPeer:', payload, e)
 			};
 		}
 	}
