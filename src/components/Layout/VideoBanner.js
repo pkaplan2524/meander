@@ -18,17 +18,15 @@ const useStyles = makeStyles(theme => ({
 		flex: "0 0 2.5em",
 	},
 	BannerLeft: {
-		width: "40%",
 		textAlign: "left",
 
 	},
 	BannerCenter: {
 		textAlign: "center",
-		flex: "1 1 20%"
+		flex: "1 1"
 	},
 	BannerRight: {
 		zIndex: 2,
-		width: "40%",
 		textAlign: "right",
 	},
 	BandwidthIconBad: {
@@ -77,12 +75,10 @@ const VideoBanner = (props) => {
 	}
 
 	const handlePopoverOpen = (event) => {
-		console.log("open")
 		setAnchorEl(event.currentTarget);
 	};
 
 	const handlePopoverClose = () => {
-		console.log("close")
 		setAnchorEl(null);
 	};
 
