@@ -15,7 +15,7 @@ APP_NAME=Meander Video Conferencing
 PORT=3000
 SPA=TRUE
 REACT_DEV_PORT=3001
-REACT_APP_AUTH=true
+REACT_APP_USE_LOGIN=true
 ```
 Then, at the command line:
 

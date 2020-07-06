@@ -55,11 +55,9 @@ const VideoBanner = (props) => {
 	}
 
 	if (peer && peer.meanderPeer && peer.meanderPeer.remoteStream && (audioMuted === null)) {
-		console.log(peer.meanderPeer.remoteStream)
 		const audio = peer.meanderPeer.remoteStream.getAudioTracks()
 		if (audio) audio.forEach((track) => {
 			setAudioMuted(!track.enabled);
-			console.log(audio)
 		})
 
 	}
